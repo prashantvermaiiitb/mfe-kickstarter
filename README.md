@@ -69,3 +69,16 @@ and serve from there we can do that as well.
 >npm install --save-dev webpack-merge
 
 This npm module is used for merging 2 webpack configurations i.e. dev and production.
+
+Both APplication1 and application2 are created inside the same container application.
+This is an example of monolithic application. if we make any change then we have to 
+deploy the entire container application.Let's now create a microfront architecture here
+to import application-1 inside the container on runtime.
+
+1. Now we have created a separate folder outside container app 
+2. we have created a sample home component 
+3. we have copied all the webpack configuration and package json file as well in Application1 folder
+4. Our webpack configuration are set for the entry point
+5. We have to update the port in the development mode
+6. We have to install all the packages from the package josn in the applciation1 folder
+7. next we run `npm install` command here for loading all the packages in Application1 directory.

@@ -7,6 +7,13 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 // for cleaning up dist folder every time web runs the build 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+/**
+ * creating support for the module federation plugin. This is required for us to import 
+ * plugin from the federated application.
+ */
+const { ModuleFederationPlugin } = require('webpack').container;
+
 module.exports = {
     //from which file webpack should start the bundling process.
     entry: './index.js',
@@ -74,6 +81,20 @@ module.exports = {
             template: './index.html'
         }),
         // cleaning webpack plugin to clear the dist folder during each build
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new ModuleFederationPlugin({
+            // specify the name for the container application
+            name:'ContainerApp',
+            // remotes property where in we will be mentioning key-value pair
+            remotes:{
+                /**
+                 * key : name of the federated module that we want to import e.g Applciation1
+                 * value : we have to pass the live path where the exported module is located
+                 * for this now let's run the development server for the Application1.
+                 * <HostIP>/<file-name-tobe-imported>
+                 */
+                'Application1':'Application1@http://localhost:9001/application1.js'
+            }
+        })
     ]
 };

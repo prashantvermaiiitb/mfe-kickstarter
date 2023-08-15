@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Header from './src/components/Header/header';
-import Paragraph from './src/components/Paragraph/paragraph';
+import Application1 from './src/components/Application1/Application1';
+import Application2 from './src/components/Application2/Application2';
 
 /**
  * Container APP having both Header and paragraph component.
@@ -12,7 +13,8 @@ const AppContainer = () => {
     return (
         <>
             <Header />
-            <Paragraph />
+            <Application1 />
+            <Application2 />
         </>
     )
 }
