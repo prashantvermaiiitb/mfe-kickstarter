@@ -1,9 +1,8 @@
 /**
+ * This is a common configuration file to be used in both DEV and production environment.
  * Imported in-built path module from NODE to declare the output path.
  */
 const path = require('path');
-// for extracting out css in separate Css file during build process
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // for generating html template with style & JS links during build
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 // for cleaning up dist folder every time web runs the build 
@@ -51,22 +50,22 @@ module.exports = {
                 }
             },
             {
-                test: /\.(css|scss)$/,
                 /**
-                 * css-loader -> Transpile CSS code from JS to CSS 
-                 * MiniCssExtractPlugin.loader --> Get the css code and create a new file out of it
+                 * Rule for handling image files while building
                  */
-                use: [MiniCssExtractPlugin.loader, 'css-loader']
+                test:/\.(png|jpg)/,
+                /**
+                 * we just have to mention a type property here rest will be taken care off by webpack
+                 * we can used this way in webpack5 for images . fonts . icons which are our assets. 
+                 * type : 'asset/resource' : means webpack has to emit this file in the output folder & then 
+                 * send the url to that file.this will help webpack to understand the import logo statement
+                 * in our header component and return URL for that logo.
+                 */
+                type:'asset/resource'
             }
         ]
     },
     plugins: [
-        /**
-         * setting for allowing mystyles.css file to be created.
-         */
-        new MiniCssExtractPlugin({
-            filename: 'mystyles.css'
-        }),
         new HTMLWebpackPlugin({
             /**
              * New template needs to be created from index.html file

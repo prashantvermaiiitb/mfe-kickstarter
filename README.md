@@ -25,9 +25,47 @@ mini-css-extract-plugin -> to extract the css and place it in a css file
 This is needed to create HTML template  on the fly during the build process and place the links 
 for generated styles and Javascript bundles.
 
-
-Adding CSS styles inline to the HTML to improve performance gain for critical css.
+> ['style-loader','css-loader']
+> 
+For Adding CSS styles inline to the HTML to improve performance gain for critical css.
 
 > npm install --save-dev webpack-clean
 
 Clean-up dist folder everytime webpack builds 
+
+> npm install --save-dev sass sass-loader
+
+These are included to have SCSS file working in our project
+
+To support different build files for different build environment we can be 2 webpack files 
+1. webpack.dev.config.js
+2. webpack.prod.config.js
+
+Next we have to upgrade the configuraion file for the package json for the build commands
+>"build": "webpack --config webpack.prod.config.js"
+
+We are asking NPM to run webpack command using production configuration file. Copy this entire script
+and jsut add :dev to the script and update the configuration file name to webpack.de.config.js
+
+> npm install --save-dev webpack-dev-server 
+In the development environment we will be needing a development server through which we will be hosting 
+our application in development environment for this install webpack-dev-server. And also we should update 
+Dev build command to accomodate this change.
+
+>"build:dev": "webpack serve --config webpack.dev.config.js --hot" 
+
+1. We will be adding serve in the command so that application will be served at specific port 
+& --hot to enable hot module replacement to see any change in the file in realtime
+
+2. Webpack dev server serves file from memory but if we want webpack dev server to write file to dist 
+and serve from there we can do that as well.
+
+3. As writing the files to the disk is a heavy process we can remove the usage of certain plugins in the dev build like extract css  plugin and use style-loader instead for having styles inline.
+
+4. There is lot many configuration that's common in webpack, so let's rename the webpack.configuration to webpack.common.config.js to have the common configurations. we can clean up the webpack.dev config file for common files and plugins as there is no need for the plugin in the Dev mode.
+
+5. This cleanup is also done for the production file as well.
+
+>npm install --save-dev webpack-merge
+
+This npm module is used for merging 2 webpack configurations i.e. dev and production.
