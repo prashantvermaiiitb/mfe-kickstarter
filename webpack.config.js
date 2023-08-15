@@ -56,7 +56,13 @@ module.exports = {
                  * css-loader -> Transpile CSS code from JS to CSS 
                  * MiniCssExtractPlugin.loader --> Get the css code and create a new file out of it
                  */
-                use: [MiniCssExtractPlugin.loader, 'css-loader']
+                // use: [MiniCssExtractPlugin.loader, 'css-loader']
+                /**
+                 * Upon usage for this there is no style.css file that's generated.
+                 * Now CSS will be injected in the DOM, it will part of the bundle JS. 
+                 * This css will be injects in the DOM by the JS.
+                 */
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
