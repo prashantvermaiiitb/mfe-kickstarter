@@ -1,5 +1,20 @@
-import header from "./src/components/Header/header";
-import paragraph from "./src/components/Paragraph/paragraph";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-document.body.appendChild(header());
-document.body.appendChild(paragraph());
+import Header from './src/components/Header/header';
+import Paragraph from './src/components/Paragraph/paragraph';
+
+/**
+ * Container APP having both Header and paragraph component.
+ * @returns 
+ */
+const AppContainer = () => {
+    return (
+        <>
+            <Header />
+            <Paragraph />
+        </>
+    )
+}
+
+ReactDOM.render(<AppContainer/>,document.getElementById('app'));

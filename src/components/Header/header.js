@@ -1,12 +1,15 @@
+import React from 'react';
+import './Header.css';
 /**
- * Creating Heading tag 
+ * Creating header component for the React Application
  * @param {*} msg 
  * @returns 
  */
-const header = (msg) => {
-    const h1 = document.createElement('h1');
-    h1.innerHTML = msg || `Micro-Front-End Demo`
-    return h1;
+const Header = ({ msg }) => {
+    return (<div className='Header'>
+        <h1>{msg || `Micro-Front-End Demo`}</h1>
+    </div>);
 }
 
-export default header;
+export default Header;
+

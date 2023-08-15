@@ -2,6 +2,12 @@
  * Imported in-built path module from NODE to declare the output path.
  */
 const path = require('path');
+// for extracting out css in separate Css file during build process
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// for generating html template with style & JS links during build
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+// for cleaning up dist folder every time web runs the build 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     //from which file webpack should start the bundling process.
     entry: './index.js',
@@ -21,5 +27,54 @@ module.exports = {
          * ! index.js file then do rebundle.  After this code of header and paragraph are included in this bundle. 
          */
         path: path.resolve(__dirname, './dist')
-    }
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    /**
+                     * babel is a transpiler that will convert modern JS code into standard JS code that 
+                     * browser can understand.
+                     * preset-react -> transpile react code to ES5
+                     * preset-env -> transpile ES6/7+ all modernJS  to ES5
+                     */
+                    loader: 'babel-loader',
+                    /**
+                     * ! we chould have created .babelrc file instead for this configuration as well
+                     * ! and place these presets[] in that.
+                     */
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react']
+                    }
+                }
+            },
+            {
+                test: /\.(css|scss)$/,
+                /**
+                 * css-loader -> Transpile CSS code from JS to CSS 
+                 * MiniCssExtractPlugin.loader --> Get the css code and create a new file out of it
+                 */
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
+            }
+        ]
+    },
+    plugins: [
+        /**
+         * setting for allowing mystyles.css file to be created.
+         */
+        new MiniCssExtractPlugin({
+            filename: 'mystyles.css'
+        }),
+        new HTMLWebpackPlugin({
+            /**
+             * New template needs to be created from index.html file
+             * !we can delete the links for styles / js from the original one 
+             */
+            template: './index.html'
+        }),
+        // cleaning webpack plugin to clear the dist folder during each build
+        new CleanWebpackPlugin()
+    ]
 };
